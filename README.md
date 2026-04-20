@@ -49,9 +49,11 @@ This progression allowed the methodology developed for relative density to be va
 Explo/
 ├── EagerTsai_based_bayesian_MS300_ResStress.ipynb   # Main notebook: residual stress modeling
 ├── EagerTsai_based_bayesian_RelDensity.ipynb        # Main notebook: relative density modeling
-├── BasicModels_ResStress.ipynb                      # Baseline GPR models for residual stress
-├── BasicModels_RelDensity.ipynb                     # Baseline GPR models for relative density
+├── BasicModels_ResStress.ipynb                      # Baseline models for residual stress
+├── BasicModels_RelDensity.ipynb                     # Baseline models for relative density
 └── residual_stress_maraging_steel_dataset.xlsx      # Experimental dataset (MS300 LPBF)
+└── MS300Fixed.xlsx                                  # Experimental dataset for Density(MS300 LPBF)
+
 ```
 
 ---
