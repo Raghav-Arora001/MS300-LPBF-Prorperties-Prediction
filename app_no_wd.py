@@ -810,7 +810,7 @@ with tab2:
     with oc2:
         target_val = st.number_input(
             "Target Stress (only for 'target' mode)",
-            value=-300.0, step=10.0,
+            value=-350.0, step=10.0,
             disabled=(opt_mode == 'minimize'))
         top_n = st.slider("Number of top candidates", 5, 20, 10)
 
@@ -831,7 +831,7 @@ with tab2:
             frac = min(n_eval / (150*12*3), 0.95)
             prog_bar.progress(frac, text=f"Evaluations: {n_eval}")
 
-        with st.spinner("Optimizing — this takes ~1–2 minutes…"):
+        with st.spinner("Optimizing — this takes ~15–20 minutes…"):
             opt_res = run_optimization(
                 models_global,
                 mode=opt_mode,

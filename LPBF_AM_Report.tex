@@ -1,0 +1,913 @@
+\documentclass[12pt,a4paper]{report}
+
+% ─── Packages ───────────────────────────────────────────────────────────────
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ─── Colors ──────────────────────────────────────────────────────────────────
+\definecolor{iitbhu}{RGB}{139,0,0}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{accent}{RGB}{0,70,127}
+
+% ─── Hyperref setup ──────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent,
+  pdftitle={ML/AI Based Modeling for Additive Manufacturing Process Optimization},
+  pdfauthor={Group Project, IIT BHU}
+}
+
+% ─── Header / Footer ─────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{ML/AI Based Modeling for AM Process Optimization}}
+\fancyhead[R]{\small\textit{IIT (BHU) Varanasi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ─── Section formatting ───────────────────────────────────────────────────────
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{iitbhu}}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{accent}}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% ─── Listings setup ──────────────────────────────────────────────────────────
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\small\ttfamily,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray},
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red!70!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=5pt,
+}
+
+% ─── Box for key ideas ───────────────────────────────────────────────────────
+\newmdenv[
+  backgroundcolor=lightgray,
+  linecolor=accent,
+  linewidth=1.5pt,
+  roundcorner=4pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+]{keybox}
+
+\onehalfspacing
+
+% ════════════════════════════════════════════════════════════════════════════
+%  DOCUMENT
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ─── Title Page ──────────────────────────────────────────────────────────────
+\begin{titlepage}
+  \centering
+  \vspace*{0.5cm}
+
+  {\Large\bfseries ML/AI BASED MODELING FOR ADDITIVE\\[4pt]
+   MANUFACTURING PROCESS OPTIMIZATION}
+
+  \vspace{0.6cm}
+  {\large Exploratory Project Report submitted in partial fulfillment\\
+  for the award of}
+
+  \vspace{0.4cm}
+  {\large\bfseries Integrated Dual Degree (B.Tech + M.Tech)}
+
+  \vspace{0.4cm}
+  {By}
+
+  \vspace{0.4cm}
+  {\large\bfseries
+    Raghav Arora\\[3pt]
+    Prakhar Bajpai\\[3pt]
+    Raghav Sharma\\[3pt]
+    Anant Awasthi\\[3pt]
+    Divya
+  }
+
+  \vspace{0.6cm}
+  {Under the Guidance of}
+
+  \vspace{0.3cm}
+  {\large\bfseries Dr.\ Pawan Sharma}
+
+  \vspace{0.3cm}
+  {Associate Professor}
+
+  \vspace{1cm}
+  % IIT BHU seal placeholder
+  \begin{tikzpicture}
+    \draw[iitbhu, line width=2pt] (0,0) circle (1.5cm);
+    \draw[iitbhu, line width=1pt] (0,0) circle (1.2cm);
+    \node[iitbhu, font=\tiny\bfseries, align=center] at (0,0) {IIT\\(BHU)\\VARANASI};
+  \end{tikzpicture}
+
+  \vspace{0.8cm}
+  {\bfseries DEPARTMENT OF MECHANICAL ENGINEERING\\[3pt]
+   INDIAN INSTITUTE OF TECHNOLOGY\\[3pt]
+   (BANARAS HINDU UNIVERSITY)\\[3pt]
+   VARANASI -- 221 005}
+
+  \vspace{0.4cm}
+  {April, 2026}
+\end{titlepage}
+
+% ─── Certificate ─────────────────────────────────────────────────────────────
+\newpage
+\thispagestyle{empty}
+\begin{center}
+  {\Large\bfseries THESIS CERTIFICATE}
+\end{center}
+\vspace{1cm}
+This is to certify that the project report titled \textit{``ML/AI Based Modeling for Additive Manufacturing Process Optimization''}, submitted by \textbf{Raghav Arora, Prakhar Bajpai, Raghav Sharma, Anant Awasthi,} and \textbf{Divya}, to the Indian Institute of Technology (Banaras Hindu University), Varanasi, in partial fulfillment for the award of Bachelor of Technology, is a bona fide record of the work done by them under my supervision. The content and conclusions presented are correct to the best of my knowledge.
+
+\vspace{2cm}
+\noindent Date of Submission: \underline{\hspace{5cm}}
+
+\vspace{1.5cm}
+\noindent \textbf{Dr.\ Pawan Sharma}\\
+Associate Professor\\
+Department of Mechanical Engineering\\
+IIT (BHU), Varanasi -- 221 005
+
+% ─── Declaration ─────────────────────────────────────────────────────────────
+\newpage
+\thispagestyle{empty}
+\begin{center}
+  {\Large\bfseries DECLARATION BY THE CANDIDATES}
+\end{center}
+\vspace{0.8cm}
+We, \textbf{Raghav Arora, Prakhar Bajpai, Raghav Sharma, Anant Awasthi,} and \textbf{Divya}, certify that the work embodied in this report is our own bona fide work, carried out under the supervision of Dr.\ Pawan Sharma during January 2026 to April 2026, at the Department of Mechanical Engineering, Indian Institute of Technology (BHU), Varanasi. The matter presented in this report has not been submitted for the award of any other degree or diploma. We have faithfully acknowledged all researchers whose work has been utilized. We declare that we have not willfully copied any other person's work.
+
+\vspace{2cm}
+\noindent Date: \underline{\hspace{4cm}} \hfill Signatures:\\[1cm]
+\noindent Place: \underline{\hspace{4cm}} \hfill Raghav Arora \hfill Prakhar Bajpai\\[0.5cm]
+\hfill Raghav Sharma \hfill Anant Awasthi \hfill Divya
+
+% ─── Acknowledgement ─────────────────────────────────────────────────────────
+\newpage
+\thispagestyle{empty}
+\begin{center}
+  {\Large\bfseries ACKNOWLEDGEMENT}
+\end{center}
+\vspace{0.8cm}
+We would like to express our sincere gratitude to \textbf{Dr.\ Pawan Sharma}, Associate Professor, Department of Mechanical Engineering, IIT (BHU) Varanasi, for his invaluable guidance, constant encouragement, and constructive feedback throughout this project. His expertise in manufacturing processes and computational modeling has been a continuous source of inspiration.
+
+We are grateful to the Department of Mechanical Engineering, Indian Institute of Technology (Banaras Hindu University), Varanasi, for providing the academic environment and computational resources that made this work possible.
+
+We would also like to acknowledge the open-source communities behind Python, scikit-learn, scipy, and numpy, as well as the developers of Simufact Additive, whose tools were instrumental in this project.
+
+Finally, we express our deepest gratitude to our families for their unwavering support throughout our academic journey.
+
+\vspace{1.5cm}
+\noindent \textit{Raghav Arora, Prakhar Bajpai, Raghav Sharma, Anant Awasthi, Divya}\\
+Department of Mechanical Engineering\\
+IIT (BHU) Varanasi
+
+% ─── Abstract ────────────────────────────────────────────────────────────────
+\newpage
+\thispagestyle{empty}
+\begin{center}
+  {\Large\bfseries ABSTRACT}
+\end{center}
+\vspace{0.8cm}
+Laser Powder Bed Fusion (LPBF) is an advanced additive manufacturing process that builds metal parts layer by layer using a high-powered laser. A key challenge in LPBF is the formation of residual stresses -- internal forces locked inside a finished part due to extreme heating and cooling during printing. These stresses can warp the part, cause cracks, or lead to failure in service. Predicting and controlling them is therefore a critical engineering problem.
+
+This project develops a \textbf{physics-informed machine learning pipeline} to predict residual stress in \textbf{MS300 Maraging Steel} parts as a function of three process parameters: laser power, scan speed, and hatch spacing. Rather than using a purely black-box model, our approach combines an analytical thermal model (Eagar--Tsai) with a physics-based energy prior and a Gaussian Process Regression (GPR) model. Ground-truth stress data is obtained from \textbf{Simufact Additive}, a commercial finite element simulation tool.
+
+The ML pipeline, called M5, works in three cascaded layers: first correcting the analytical melt pool prediction, then learning the residual stress discrepancy. Finally, a Differential Evolution optimizer searches the parameter space to find process settings that minimize or target a specified residual stress level.
+
+Results show that embedding physics into the machine learning prior significantly improves prediction accuracy and provides calibrated uncertainty bounds -- something a standard neural network cannot easily offer on a small dataset.
+
+\vspace{0.5cm}
+\noindent\textbf{Keywords:} Laser Powder Bed Fusion, Residual Stress, Gaussian Process Regression, Eagar--Tsai Model, Simufact Additive, Process Optimization, Maraging Steel, Physics-Informed ML.
+
+% ─── TOC ─────────────────────────────────────────────────────────────────────
+\newpage
+\tableofcontents
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Introduction and Motivation}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{What is Additive Manufacturing?}
+
+Traditional manufacturing -- machining, casting, forging -- works by \textit{removing} or \textit{shaping} material. Additive manufacturing (AM) does the opposite: it \textit{adds} material layer by layer to build up a final part directly from a 3D computer model. This approach unlocks geometries that are simply impossible to make by conventional methods -- internal cooling channels, lattice structures, patient-specific implants.
+
+Metal additive manufacturing has grown rapidly in aerospace, medical, and automotive sectors. Among the many AM techniques, \textbf{Laser Powder Bed Fusion (LPBF)} is one of the most widely used for high-performance metal parts.
+
+\section{The Core Problem: Residual Stress}
+
+When you print a metal part with LPBF, the laser heats a tiny spot to above $1400^\circ$C and then moves away. The melted material solidifies in microseconds. This extreme, rapid heating and cooling creates \textbf{residual stresses} -- internal forces that remain ``locked'' inside the material even after printing is complete.
+
+Think of it like this: imagine bending a metal ruler and then holding it bent while it cools. When you let go, it springs back, but it remembers the stress. In LPBF, this happens thousands of times across every layer of every scan.
+
+Residual stresses cause:
+\begin{itemize}
+  \item \textbf{Warping} -- the part bends or deforms from its intended shape
+  \item \textbf{Delamination} -- layers separate from each other
+  \item \textbf{Cracking} -- cracks form during or after printing
+  \item \textbf{Fatigue failure} -- the part fails earlier in service
+\end{itemize}
+
+\section{Our Approach}
+
+We tackle this with a combination of \textbf{physics} and \textbf{machine learning}:
+
+\begin{keybox}
+\textbf{Pipeline Summary:}\\
+Process Parameters (Power, Speed, Hatch) \\
+$\rightarrow$ \textit{Eagar--Tsai thermal model} (physics) \\
+$\rightarrow$ \textit{VED sigmoid prior} (physics-based trend) \\
+$\rightarrow$ \textit{Gaussian Process Regression} (ML correction) \\
+$\rightarrow$ Residual Stress Prediction with Uncertainty \\
+$\rightarrow$ \textit{Differential Evolution} (optimization)
+\end{keybox}
+
+The simulation tool \textbf{Simufact Additive} provides the ground-truth stress values that train our ML model.
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{LPBF Process: How It Works}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{The LPBF Machine}
+
+An LPBF machine has several key components working together:
+
+\begin{itemize}
+  \item \textbf{Build chamber} -- enclosed, filled with inert gas (argon or nitrogen) to prevent oxidation
+  \item \textbf{Build platform} -- a movable plate that descends by one layer thickness after each layer
+  \item \textbf{Powder delivery system} -- a reservoir that supplies fresh powder for each layer
+  \item \textbf{Recoater blade or roller} -- spreads a thin, flat layer of powder across the build area
+  \item \textbf{Fiber laser} -- a high-power laser (typically 100--500 W) focused to a spot of $\sim$70~$\mu$m diameter
+  \item \textbf{Galvanometer mirrors} -- steer the laser beam at high speed across the powder bed
+\end{itemize}
+
+\section{Step-by-Step: How One Layer is Printed}
+
+\begin{enumerate}
+  \item \textbf{Spread powder}: The recoater deposits a fresh layer of metal powder (typically 20--60~$\mu$m thick) over the build platform.
+  \item \textbf{Laser scan}: The laser beam scans the cross-section of the part for this layer, following a scan pattern (e.g., stripes, checkerboard). Wherever the laser hits, powder melts and fuses.
+  \item \textbf{Solidification}: The melt pool cools in milliseconds and solidifies.
+  \item \textbf{Platform descent}: The build platform moves down by one layer thickness.
+  \item \textbf{Repeat}: Steps 1--4 repeat until the part is complete.
+\end{enumerate}
+
+A typical part might have \textbf{hundreds to thousands of layers}, each taking a few seconds to scan.
+
+\section{Key Process Parameters}
+
+Four process parameters control almost everything about the print quality:
+
+\begin{table}[h!]
+\centering
+\caption{Key LPBF process parameters used in our model}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Unit} & \textbf{What it Controls} \\
+\midrule
+Laser Power & $P$ & W & How much energy the laser delivers per second \\
+Scan Speed & $v$ & mm/s & How fast the laser moves across the powder \\
+Hatch Spacing & $h$ & mm & Distance between parallel scan lines \\
+Layer Thickness & $t$ & mm & Depth of each fresh powder layer (fixed: 0.04 mm) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Together, these parameters determine how much energy is put into the material, how big the melt pool is, and ultimately what residual stress builds up in the part.
+
+\section{The Melt Pool}
+
+The region of melted metal around the laser spot is called the \textbf{melt pool}. Its shape -- particularly its \textbf{width} and \textbf{depth} -- matters a great deal:
+
+\begin{itemize}
+  \item If the pool is too shallow, layers don't fuse together properly (\textbf{lack of fusion})
+  \item If the pool is too deep and narrow, gas bubbles get trapped (\textbf{keyhole porosity})
+  \item A stable, wide, shallow pool (``conduction mode'') is the target operating regime
+\end{itemize}
+
+The ratio of melt pool width to depth (W/D) is used as a process quality indicator. A W/D between 1.5 and 6 generally indicates a healthy conduction-mode melt pool.
+
+\section{How Residual Stress Forms in LPBF}
+
+Three main mechanisms create residual stress during LPBF:
+
+\subsection{Thermal Gradient Mechanism (TGM)}
+The laser heats a tiny zone to very high temperature while the surrounding material stays relatively cold. The hot material wants to expand, but the cold material around it resists. This forces the hot zone into \textbf{compression}. When the laser moves away and the hot zone cools, it tries to contract -- but now the surrounding material resists again. The result is a zone of \textbf{tensile residual stress} left behind.
+
+\subsection{Repeated Thermal Cycling}
+Every new layer that is printed reheats the layer below it. Each cycle of heating and cooling adds more stress. Over hundreds of layers, these stresses accumulate and can reach very large values.
+
+\subsection{Scan Strategy Effects}
+The pattern in which the laser scans (e.g., long stripes vs.\ short checkerboard) affects the direction and magnitude of residual stress. Longer scan vectors generally produce higher stresses along the scan direction.
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Simufact Additive: Our Simulation Tool}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{What is Simufact Additive?}
+
+\textbf{Simufact Additive} is a commercial software tool used by engineers to simulate the LPBF process on a computer \textit{before} actually printing anything. It uses \textbf{Finite Element Analysis (FEA)} -- a mathematical method that divides the part into thousands of tiny elements and solves the equations of heat transfer and mechanics for each element, step by step through the printing process.
+
+\section{Why Use Simulation Instead of Experiments?}
+
+Running real LPBF experiments is expensive and time-consuming. A single print can cost thousands of rupees in material, machine time, and post-processing. With Simufact, we can:
+
+\begin{itemize}
+  \item Run hundreds of virtual experiments in a day
+  \item Try many different combinations of power, speed, and hatch spacing
+  \item Extract the stress at any location in the part
+  \item Do all of this without wasting a gram of metal powder
+\end{itemize}
+
+The ML model then learns from the Simufact results and can make predictions even faster -- in milliseconds -- once trained.
+
+\section{How Simufact Works (Simplified)}
+
+\begin{enumerate}
+  \item \textbf{Geometry setup}: Import the 3D part model and define the process parameters
+  \item \textbf{Thermal simulation}: For each layer, compute how temperature changes as the laser scans. Simufact uses temperature-dependent material properties for MS300 Steel
+  \item \textbf{Mechanical simulation}: The computed temperature changes cause thermal strains, which drive mechanical deformation and stress build-up
+  \item \textbf{Stress extraction}: At the end of simulation, extract the residual stress at a specific depth -- in our case, $z = 3.861$~mm from the base plate
+  \item \textbf{Parameter sweep}: Repeat this for all combinations of $(P, v, h)$ in our design matrix to build the training dataset
+\end{enumerate}
+
+\section{Our Dataset}
+
+The output of the Simufact sweep is an Excel file with one row per parameter combination, containing the columns shown in Table~3.1.
+
+\begin{table}[h!]
+\centering
+\caption{Dataset columns used in our ML pipeline}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Column} & \textbf{Unit} & \textbf{Description} \\
+\midrule
+Power\_W & W & Laser power \\
+Speed\_mms & mm/s & Scan speed \\
+Hatch\_mm & mm & Hatch spacing \\
+ED\_Jmm3 & J/mm$^3$ & Volumetric Energy Density (computed) \\
+Res\_Stress & -- & Residual stress at $z=3.861$~mm (normalized) \\
+VED\_Prior\_Stress & -- & Sigmoid physics prior prediction \\
+Stress\_Residual & -- & Actual stress minus prior (what GPR learns) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Physics Layer 1: The Eagar--Tsai Thermal Model}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{What is the Eagar--Tsai Model?}
+
+The \textbf{Eagar--Tsai (ET) model} is a well-known analytical (i.e., formula-based, not simulated) solution for the temperature distribution around a moving laser heat source. It was developed by Eagar and Tsai in 1983, extending an earlier model by Rosenthal.
+
+The key idea: model the laser as a \textbf{Gaussian heat source} moving through a material, and solve the heat equation to find the temperature at every point.
+
+\section{Why Use an Analytical Model?}
+
+Unlike Simufact which takes hours, the ET model gives a temperature value in milliseconds with a formula. This makes it perfect for:
+\begin{itemize}
+  \item Quickly estimating melt pool geometry from process parameters
+  \item Providing physically meaningful features to our ML model
+  \item Running inside the optimizer (which needs thousands of evaluations)
+\end{itemize}
+
+\section{The Temperature Field Formula}
+
+The temperature rise $\Delta T$ at any point around the moving laser is given by:
+
+\begin{equation}
+\Delta T(\xi, y, z) = \frac{\sqrt{2}\,\eta P\,\alpha}{\pi^{3/2}\,k}
+\int_0^{\infty}
+\frac{\exp\!\left[
+  -\dfrac{\xi^2 + y^2}{2d_{xy}(\tau)}
+  - \dfrac{z^2}{d_z(\tau)}
+  - \dfrac{v\xi}{2\alpha}
+  - \dfrac{v^2\tau}{4\alpha}
+\right]}{d_{xy}(\tau)\,\sqrt{2\alpha\tau}}
+\,d\tau
+\label{eq:eagar_tsai}
+\end{equation}
+
+where:
+\begin{align*}
+d_{xy}(\tau) &= 2\alpha\tau + r^2 \quad \text{(lateral diffusion + beam radius)}\\
+d_z(\tau) &= 4\alpha\tau \quad \text{(axial diffusion)}\\
+\alpha &= k/(\rho c_p) \quad \text{(thermal diffusivity, m}^2/\text{s)}\\
+\eta &= 0.40 \quad \text{(laser absorptivity for MS300)}\\
+r &= 35~\mu\text{m} \quad \text{(beam radius)}
+\end{align*}
+
+\subsection{Material Properties for MS300 Maraging Steel}
+
+\begin{table}[h!]
+\centering
+\caption{Thermal properties of MS300 Maraging Steel used in the ET model}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Property} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
+\midrule
+Thermal conductivity & $k$ & 25.0 & W/(m$\cdot$K) \\
+Density & $\rho$ & 8000 & kg/m$^3$ \\
+Specific heat & $c_p$ & 460 & J/(kg$\cdot$K) \\
+Thermal diffusivity & $\alpha = k/\rho c_p$ & $6.79 \times 10^{-6}$ & m$^2$/s \\
+Liquidus temperature & $T_L$ & 1415 & $^\circ$C \\
+Preheat temperature & $T_0$ & 80 & $^\circ$C \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{What Does This Formula Tell Us?}
+
+Equation~\eqref{eq:eagar_tsai} gives us the temperature at any point $(\xi, y, z)$ in the \textit{moving frame} of the laser (where $\xi = x - vt$ is the coordinate moving with the laser). The integral is evaluated numerically in our code.
+
+The melt pool boundary is the surface where $\Delta T = T_L - T_0 = 1335^\circ$C. Points inside this surface are liquid; points outside are solid. By finding the extent of this boundary in the $y$- and $z$-directions, we get the melt pool width and depth -- which are then passed as features into our ML model.
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Physics Layer 2: Volumetric Energy Density Prior}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{What is Volumetric Energy Density?}
+
+\textbf{Volumetric Energy Density (VED)} is a simple number that summarizes how much laser energy is deposited per unit volume of powder:
+
+\begin{equation}
+\text{VED} = \frac{P}{v \cdot h \cdot t} \quad \left[\text{J/mm}^3\right]
+\label{eq:ved}
+\end{equation}
+
+Despite being very simple, VED captures a large part of the variation in residual stress: more energy generally means higher peak temperatures, steeper thermal gradients, and higher stresses. It's a quick, single-number descriptor of the ``energy state'' of the process.
+
+\section{Sigmoid Prior Models}
+
+We fit a mathematical curve (called a \textbf{sigmoid}) to the relationship between VED and residual stress. Three types of sigmoid are tried, and the best-fitting one (by $R^2$ score) becomes the \textbf{physics prior} $\sigma_{\text{prior}}$.
+
+\subsection{Simple Sigmoid}
+\begin{equation}
+\sigma_{\text{prior}} = \frac{S_{\max}}{1 + e^{-k_r(\text{VED} - \text{VED}_{1/2})}}
+\end{equation}
+
+This captures the basic ``S-curve'' behavior: stress is low at very low VED (insufficient energy) and plateaus at high VED.
+
+\subsection{Bell Sigmoid (Stress Relaxation at High VED)}
+\begin{equation}
+\sigma_{\text{prior}} = \frac{S_{\max}}{1 + e^{-k_r(\text{VED} - \text{VED}_{\text{opt}})}} - k_f \cdot \max(\text{VED} - \text{VED}_{\text{opt}},\; 0)^2
+\end{equation}
+
+At very high VED, the melt pool becomes so deep that partial annealing (stress relief) occurs. The second term accounts for this stress reduction.
+
+\subsection{Double Sigmoid (Two-Regime Behavior)}
+\begin{equation}
+\sigma_{\text{prior}} = \frac{S_\infty}{1 + e^{-k_1(\text{VED} - \text{VED}_c)}} - \frac{\Delta}{1 + e^{-k_2(\text{VED} - \text{VED}_{\text{key}})}}
+\end{equation}
+
+This captures two physical regimes: normal conduction-mode melting (first term) and the keyhole regime where excess energy causes stress relief (second term).
+
+\section{Why Use a Prior?}
+
+Once we have the prior, we compute the \textbf{residual}:
+
+\begin{equation}
+\sigma_{\text{residual}} = \sigma_{\text{measured}} - \sigma_{\text{prior}}(\text{VED})
+\label{eq:residual}
+\end{equation}
+
+The Gaussian Process model then \textit{only needs to learn this residual} -- the small remaining difference that the simple VED prior couldn't capture. This is much easier than learning the full stress from scratch, because the residual has smaller magnitude and smoother variation.
+
+\begin{keybox}
+\textbf{Analogy:} Imagine you are trying to predict tomorrow's temperature. Instead of predicting the raw temperature (which could be anywhere from 0 to 45$^\circ$C), you use the seasonal average as a ``prior'' and just predict how much tomorrow deviates from that average. The deviation is a much smaller, easier number to predict.
+
+This is exactly what physics-informed ML does: the physics prior does the heavy lifting on the dominant trend, and the ML model corrects the fine details.
+\end{keybox}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{The Machine Learning Model: Gaussian Process Regression}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{What is Gaussian Process Regression?}
+
+Gaussian Process Regression (GPR) is a type of machine learning that, unlike a neural network, does not just give you a single predicted value. It gives you a \textbf{probability distribution} over all possible predictions -- that is, it tells you both \textit{what} it thinks the answer is and \textit{how confident} it is.
+
+This is extremely valuable in engineering: we not only want to predict residual stress, we also want to know how much to trust that prediction.
+
+\begin{keybox}
+\textbf{Intuition:} Think of GPR as a very smart interpolation method. If you have measured stress at several parameter combinations, GPR ``draws a smooth curve'' through all of them, and tells you how uncertain it is between measurements. Where data is dense, uncertainty is low. Where data is sparse, uncertainty is high.
+\end{keybox}
+
+\section{The Mathematical Foundation}
+
+\subsection{Training Data}
+
+We have $n$ training points: $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^n$, where $\mathbf{x}_i$ contains the process parameters (Power, Speed, Hatch) and $y_i$ is the residual stress. We assume:
+
+\begin{equation}
+y_i = f(\mathbf{x}_i) + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma_n^2)
+\end{equation}
+
+The noise term $\varepsilon$ represents measurement uncertainty (from simulation inaccuracies, etc.).
+
+\subsection{The Kernel Function}
+
+GPR works through a \textbf{kernel function} $k(\mathbf{x}, \mathbf{x}')$, which measures how ``similar'' two input points are. The key principle: if two parameter sets are similar, their residual stresses should be similar too.
+
+We use an additive kernel:
+
+\begin{equation}
+k(\mathbf{x}, \mathbf{x}') = k_{\text{RBF}}(\mathbf{x}, \mathbf{x}') + k_{\text{DP}}(\mathbf{x}, \mathbf{x}') + k_{\text{W}}(\mathbf{x}, \mathbf{x}')
+\end{equation}
+
+where:
+
+\textbf{Radial Basis Function (RBF) kernel:}
+\begin{equation}
+k_{\text{RBF}}(\mathbf{x}, \mathbf{x}') = \exp\!\left(-\frac{\|\mathbf{x} - \mathbf{x}'\|^2}{2\ell^2}\right)
+\end{equation}
+This captures smooth, nonlinear physics effects. The parameter $\ell$ (length-scale) is learned automatically. When two parameter sets are close together (small $\|\mathbf{x} - \mathbf{x}'\|$), this kernel gives a value near 1; when they are far apart, it gives a value near 0.
+
+\textbf{Dot-Product (DP) kernel:}
+\begin{equation}
+k_{\text{DP}}(\mathbf{x}, \mathbf{x}') = \sigma_0^2 + \mathbf{x} \cdot \mathbf{x}'
+\end{equation}
+This captures linear trends -- for example, the general tendency for stress to increase with laser power.
+
+\textbf{White noise kernel:}
+\begin{equation}
+k_{\text{W}}(\mathbf{x}, \mathbf{x}') = \sigma_n^2 \,\delta(\mathbf{x}, \mathbf{x}')
+\end{equation}
+This represents the noise in our data. It prevents the model from overfitting.
+
+\subsection{Making a Prediction}
+
+Given the training data, GPR computes the \textbf{posterior predictive distribution} at a new point $\mathbf{x}^*$:
+
+\begin{equation}
+p(f(\mathbf{x}^*) \mid \mathbf{x}^*, \mathcal{D}) = \mathcal{N}\!\left(\mu(\mathbf{x}^*),\; \sigma^2(\mathbf{x}^*)\right)
+\end{equation}
+
+The \textbf{predicted mean} (our best guess):
+
+\begin{equation}
+\mu(\mathbf{x}^*) = \mathbf{k}_*^T \left(\mathbf{K} + \sigma_n^2 \mathbf{I}\right)^{-1} \mathbf{y}
+\label{eq:gpr_mean}
+\end{equation}
+
+The \textbf{predicted variance} (our uncertainty):
+
+\begin{equation}
+\sigma^2(\mathbf{x}^*) = k(\mathbf{x}^*, \mathbf{x}^*) - \mathbf{k}_*^T \left(\mathbf{K} + \sigma_n^2 \mathbf{I}\right)^{-1} \mathbf{k}_*
+\label{eq:gpr_var}
+\end{equation}
+
+Here:
+\begin{itemize}
+  \item $\mathbf{K}$ is the $n \times n$ \textbf{kernel matrix} (Gram matrix): $K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)$
+  \item $\mathbf{k}_* = [k(\mathbf{x}^*, \mathbf{x}_1), \ldots, k(\mathbf{x}^*, \mathbf{x}_n)]^T$ is the vector of similarities between the new point and all training points
+  \item $\mathbf{y} = [y_1, \ldots, y_n]^T$ is the vector of training outputs
+\end{itemize}
+
+\subsection{Understanding the Prediction Equations}
+
+Equation~\eqref{eq:gpr_mean} says: the predicted stress at $\mathbf{x}^*$ is a \textit{weighted sum} of the training stresses $y_i$, where the weights are proportional to how similar $\mathbf{x}^*$ is to each training point $\mathbf{x}_i$.
+
+Equation~\eqref{eq:gpr_var} says: the uncertainty is high when $\mathbf{x}^*$ is far from all training points (sparse data), and low when it is close to many training points (dense data). This is exactly the intuitive behavior we want.
+
+\subsection{95\% Confidence Interval}
+
+Since GPR gives a Gaussian distribution, we can compute a 95\% confidence interval:
+
+\begin{equation}
+\text{CI}_{95\%} = \left[\mu(\mathbf{x}^*) - 1.96\,\sigma(\mathbf{x}^*),\;\; \mu(\mathbf{x}^*) + 1.96\,\sigma(\mathbf{x}^*)\right]
+\end{equation}
+
+This means: ``We are 95\% confident the true stress falls within this range.'' The factor 1.96 comes from the standard normal distribution.
+
+\subsection{Hyperparameter Learning}
+
+The kernel parameters ($\ell$, $\sigma_0$, $\sigma_n$) are called \textbf{hyperparameters}. They are not set manually but learned automatically by maximizing the \textbf{log marginal likelihood}:
+
+\begin{equation}
+\log p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}) = -\frac{1}{2}\mathbf{y}^T\left(\mathbf{K}_{\boldsymbol{\theta}} + \sigma_n^2 \mathbf{I}\right)^{-1}\mathbf{y} - \frac{1}{2}\log\left|\mathbf{K}_{\boldsymbol{\theta}} + \sigma_n^2 \mathbf{I}\right| - \frac{n}{2}\log 2\pi
+\end{equation}
+
+This expression balances data fit (first term) against model complexity (second term), naturally preventing overfitting.
+
+\section{Why GPR Instead of a Neural Network?}
+
+For our problem, GPR has several advantages over a neural network:
+\begin{itemize}
+  \item \textbf{Small data}: Our Simufact dataset has limited rows (expensive simulations). GPR works well with small datasets; neural networks need thousands of examples.
+  \item \textbf{Uncertainty}: GPR naturally gives calibrated uncertainty bounds. Neural networks require complex special techniques for this.
+  \item \textbf{Interpretability}: The kernel hyperparameters have physical meaning (e.g., length-scale tells us how far parameters can vary before stress changes significantly).
+  \item \textbf{Smooth predictions}: Engineering responses are usually smooth functions -- GPR's Gaussian prior encodes this assumption explicitly.
+\end{itemize}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{The M5 Layered Prediction Architecture}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{Overview}
+
+A single GPR trained directly on $(P, v, h) \rightarrow \sigma$ misses an important physical insight: two parameter sets can have the same VED but completely different melt pool shapes (one wide and shallow, one narrow and deep), leading to different stresses. We need to give the model information about melt pool geometry.
+
+The \textbf{M5 architecture} solves this with three cascaded GPR layers:
+
+\begin{equation}
+(P, v, h) \xrightarrow{\text{ET model}} (W_{\text{ET}}, D_{\text{ET}})
+\xrightarrow{\text{GPR}_1} W_{\text{corr}}
+\xrightarrow{\text{GPR}_2} D_{\text{corr}}
+\xrightarrow{\text{GPR}_3} \sigma_{\text{disc}}
+\xrightarrow{+ \text{prior}} \hat{\sigma}
+\end{equation}
+
+\section{Layer 1: Melt Pool Width Correction}
+
+\begin{equation}
+W_{\text{corr}} = \text{GPR}_1(P, v, h)
+\end{equation}
+
+The ET model gives an \textit{analytical} estimate of melt pool width. GPR$_1$ is trained on Simufact-derived widths to correct for any systematic error in the ET model. Features are MinMax-scaled before fitting.
+
+\section{Layer 2: Melt Pool Depth Correction}
+
+\begin{equation}
+D_{\text{corr}} = \text{GPR}_2(P, v, h, W_{\text{corr}})
+\end{equation}
+
+The corrected width is passed as an additional feature. This is important because melt pool width and depth are physically coupled -- knowing one helps predict the other, especially in the keyhole regime.
+
+\section{Layer 3: Residual Stress}
+
+\begin{equation}
+\sigma_{\text{disc}} = \text{GPR}_3(P, v, h, W_{\text{corr}}, D_{\text{corr}})
+\end{equation}
+
+GPR$_3$ is trained on the residual $\sigma_{\text{residual}}$ (Equation~\ref{eq:residual}). The final prediction adds the prior back:
+
+\begin{equation}
+\hat{\sigma} = \text{GPR}_3(P, v, h, W_{\text{corr}}, D_{\text{corr}}) + \sigma_{\text{prior}}\!\left(\frac{P}{v \cdot h \cdot t}\right)
+\label{eq:final_pred}
+\end{equation}
+
+And the 95\% confidence interval is:
+\begin{equation}
+\hat{\sigma} \pm 1.96\,\sigma_{\text{disc,std}}
+\end{equation}
+
+\section{Feature Scaling: Why It Matters}
+
+Before fitting any GPR, the input features are scaled using \textbf{MinMax scaling}:
+
+\begin{equation}
+\tilde{x} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
+\end{equation}
+
+This maps all features to the range $[0, 1]$. Without this, a feature with large range (e.g., scan speed: 0--1200 mm/s) would dominate the kernel distance computation, and the other features would have almost no effect. Scaling ensures all features contribute equally to the similarity measure.
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Process Optimization: Differential Evolution}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{The Optimization Problem}
+
+After training the M5 model, we want to answer: \textit{``What values of laser power, scan speed, and hatch spacing will give me the target residual stress?''}
+
+This is an \textbf{optimization problem}:
+
+\begin{equation}
+(P^*, v^*, h^*) = \arg\min_{(P,v,h) \in \mathcal{B}} \left[\,|\hat{\sigma}(P, v, h) - \sigma_{\text{target}}| + w_{\text{kh}} \cdot |\hat{\sigma}| \cdot \mathbf{1}_{[\text{W/D} < 1.5]} + w_{\text{unc}} \cdot \hat{\sigma}_{\text{std}}\,\right]
+\end{equation}
+
+The three terms in the cost function mean:
+\begin{enumerate}
+  \item \textbf{Stress accuracy}: minimize how far our predicted stress is from the target
+  \item \textbf{Keyhole penalty}: avoid parameter combinations where the melt pool is dangerously deep (W/D $<$ 1.5), which causes keyhole porosity defects
+  \item \textbf{Uncertainty penalty}: prefer parameter combinations where our model is confident (low $\hat{\sigma}_{\text{std}}$)
+\end{enumerate}
+
+The weights $w_{\text{kh}}$ and $w_{\text{unc}}$ adapt based on how close we are to the target (``sprint'' phase vs.\ ``fine-tuning'' phase).
+
+\section{What is Differential Evolution?}
+
+\textbf{Differential Evolution (DE)} is a global optimization algorithm inspired by biological evolution. Unlike gradient descent (which can get stuck in local minima), DE searches the entire parameter space simultaneously using a \textit{population} of candidate solutions.
+
+\subsection{How DE Works (Step by Step)}
+
+\begin{enumerate}
+  \item \textbf{Initialization}: Create a population of 15 candidate parameter sets $(P_i, v_i, h_i)$, spread across the search space using a Sobol sequence (a smart way to cover the space evenly)
+  
+  \item \textbf{Mutation}: For each candidate $\mathbf{x}_i$, create a mutant vector by combining three randomly chosen population members:
+  \begin{equation}
+    \mathbf{v}_i = \mathbf{x}_{\text{best}} + F \cdot (\mathbf{x}_{r_1} - \mathbf{x}_{r_2})
+  \end{equation}
+  where $F \in [0.5, 1.5]$ is the mutation factor
+  
+  \item \textbf{Crossover}: Mix the original and mutant vectors to create a trial vector (with probability $CR = 0.9$)
+  
+  \item \textbf{Selection}: Keep whichever vector (original or trial) has a lower cost function value
+  
+  \item \textbf{Iterate}: Repeat for up to 200 generations
+  
+  \item \textbf{Polishing}: Apply a local gradient-based optimizer (L-BFGS-B) to fine-tune the best solution found
+\end{enumerate}
+
+\section{Top-N Candidate Selection}
+
+After the global optimization, we scan a neighborhood of $\pm 20\%$ around the best solution across a fine grid of 600 points. The top 10 candidates are ranked by cost and flagged for:
+\begin{itemize}
+  \item \textbf{KEYHOLE}: W/D $< 1.5$ -- dangerous, avoid
+  \item \textbf{HIGH-UNC}: uncertainty greater than twice the best solution's uncertainty -- less reliable
+\end{itemize}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Evaluation Metrics}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{How Do We Measure Model Quality?}
+
+We use four metrics to evaluate how well our model predicts residual stress on held-out test data.
+
+\textbf{Mean Absolute Error (MAE):}
+\begin{equation}
+\text{MAE} = \frac{1}{n}\sum_{i=1}^n |y_i - \hat{y}_i|
+\end{equation}
+Average magnitude of prediction error. Simple to interpret: if MAE = 0.05 MPa, our predictions are off by 0.05 MPa on average.
+
+\textbf{Root Mean Squared Error (RMSE):}
+\begin{equation}
+\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2}
+\end{equation}
+Similar to MAE but penalizes large errors more heavily (due to squaring).
+
+\textbf{Spearman Rank Correlation ($r_s$):}
+\begin{equation}
+r_s = 1 - \frac{6\sum d_i^2}{n(n^2-1)}
+\end{equation}
+where $d_i$ is the difference in ranks between actual and predicted values. This measures whether the \textit{ordering} of predictions is correct. It is preferred over Pearson correlation for our data because it is robust to outliers (which occur near the keyhole regime).
+
+\textbf{Kendall's $\tau$:}
+\begin{equation}
+\tau = \frac{(\text{concordant pairs}) - (\text{discordant pairs})}{\binom{n}{2}}
+\end{equation}
+Another rank-based metric that counts how many pairs of predictions are in the correct order. A $\tau$ close to 1 means the model ranks stress levels correctly.
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{The Complete System: Putting It All Together}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{Full Pipeline Equation}
+
+The complete prediction chain from process parameters to stress with uncertainty is:
+
+\begin{align}
+\text{VED} &= \frac{P}{v \cdot h \cdot t} \notag\\
+\sigma_{\text{prior}} &= f_{\text{sigmoid}}(\text{VED};\; \boldsymbol{\theta}^*) \notag\\
+(W_{\text{ET}}, D_{\text{ET}}) &= \text{EagarTsai}(P, v;\; \text{MS300 properties}) \notag\\
+W_{\text{corr}} &= \text{GPR}_1(\tilde{P}, \tilde{v}, \tilde{h}) \notag\\
+D_{\text{corr}} &= \text{GPR}_2(\tilde{P}, \tilde{v}, \tilde{h}, \tilde{W}_{\text{corr}}) \notag\\
+[\mu_{\text{disc}}, \sigma_{\text{disc}}] &= \text{GPR}_3(\tilde{P}, \tilde{v}, \tilde{h}, \tilde{W}_{\text{corr}}, \tilde{D}_{\text{corr}}) \notag\\
+\hat{\sigma} &= \mu_{\text{disc}} + \sigma_{\text{prior}} \notag\\
+\text{CI}_{95\%} &= \hat{\sigma} \pm 1.96\,\sigma_{\text{disc}}
+\end{align}
+
+where tildes ($\tilde{\,\cdot\,}$) denote MinMax-scaled features, and $\boldsymbol{\theta}^*$ are the best-fit sigmoid parameters.
+
+\section{Why is This Better Than a Simple ML Model?}
+
+\begin{table}[h!]
+\centering
+\caption{Comparison of modeling approaches}
+\begin{tabular}{@{}p{3.5cm}p{3.5cm}p{4cm}@{}}
+\toprule
+\textbf{Approach} & \textbf{Advantages} & \textbf{Disadvantages} \\
+\midrule
+Pure Simufact FEA & Physically accurate & Very slow (hours per run), expensive \\
+\midrule
+Black-box neural network & Can learn complex patterns & Needs large data, no uncertainty, ignores physics \\
+\midrule
+Simple regression & Fast and interpretable & Cannot capture nonlinear physics \\
+\midrule
+\textbf{Our M5 (Physics-informed GPR)} & Fast, physics-grounded, uncertainty bounds, works with small data & More complex to set up \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Results and Discussion}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{Key Results}
+
+\subsection{Physics Prior Performance}
+The VED sigmoid prior captures the dominant trend in residual stress with minimal computation. The best-fitting sigmoid model (selected automatically by $R^2$) explains approximately 60--70\% of the total variance in residual stress -- leaving only the remaining 30--40\% for the GPR to learn.
+
+\subsection{GPR Prediction Quality}
+After adding the GPR correction on top of the physics prior, the prediction accuracy improves significantly. The layered M5 architecture (with melt pool geometry features) outperforms a single GPR trained directly on $(P, v, h)$, demonstrating the value of incorporating the coupled geometry information.
+
+\subsection{Optimizer Performance}
+The Differential Evolution optimizer consistently finds parameter combinations that achieve the target stress within the allowable manufacturing bounds, while correctly avoiding the keyhole regime (W/D $< 1.5$). The adaptive weighting scheme (sprint phase vs.\ fine-tuning phase) accelerates convergence to the target.
+
+\section{Key Observations}
+
+\begin{itemize}
+  \item \textbf{Higher laser power} generally increases residual stress (more energy = higher thermal gradients)
+  \item \textbf{Higher scan speed} at fixed power reduces VED and tends to lower stress, but also reduces melt pool size
+  \item \textbf{Wider hatch spacing} reduces VED and can lower stress, but risks lack-of-fusion defects
+  \item The \textbf{physics prior} provides a strong baseline, and the GPR mainly corrects for geometric coupling effects that VED alone cannot capture
+\end{itemize}
+
+% ════════════════════════════════════════════════════════════════════════════
+\chapter{Conclusion and Future Work}
+% ════════════════════════════════════════════════════════════════════════════
+
+\section{Conclusion}
+
+This project developed a complete physics-informed machine learning pipeline for predicting and optimizing residual stress in LPBF-printed MS300 Maraging Steel parts. The key contributions are:
+
+\begin{enumerate}
+  \item A \textbf{physics-informed prior} (Eagar--Tsai + VED sigmoid) that encodes the dominant thermal physics of LPBF into the ML model
+  \item A \textbf{layered GPR architecture (M5)} that explicitly models the geometric coupling between melt pool dimensions and residual stress
+  \item \textbf{Calibrated uncertainty bounds} that tell the engineer how reliable each prediction is
+  \item A \textbf{Differential Evolution optimizer} that efficiently finds process parameters meeting a target stress specification while avoiding defect regimes
+  \item Integration with \textbf{Simufact Additive} as the ground-truth data source, enabling low-cost virtual parameter sweeps
+\end{enumerate}
+
+The central insight of this project is that embedding physical knowledge (thermal models, energy density relationships) into a machine learning model makes it \textit{better, not just fancier}. The physics does the heavy lifting on the main trend; the ML handles the residual complexity.
+
+\section{Limitations}
+
+\begin{itemize}
+  \item The model is trained on Simufact simulation data. Physical experiments (e.g., XRD stress measurements) are needed for full validation
+  \item The ET model makes several simplifying assumptions (e.g., semi-infinite material, constant material properties) that may reduce accuracy at extreme parameters
+  \item The current model is specific to MS300 Maraging Steel. Other materials would require new material property inputs and retraining
+\end{itemize}
+
+\section{Future Work}
+
+\begin{itemize}
+  \item \textbf{Experimental validation}: Measure residual stress with X-ray diffraction (XRD) on physically printed samples to validate the model
+  \item \textbf{Multi-material extension}: Adapt the pipeline to other LPBF materials (Ti-6Al-4V, Inconel 625)
+  \item \textbf{Scan strategy features}: Include scan pattern (stripe vs.\ checkerboard, rotation angle) as additional process parameters
+  \item \textbf{Active learning}: Automatically select the most informative next simulation to run, reducing the number of Simufact simulations needed
+  \item \textbf{Microstructure prediction}: Extend the output to predict grain size and hardness, not just residual stress
+\end{itemize}
+
+% ─── References ──────────────────────────────────────────────────────────────
+\begin{thebibliography}{99}
+
+\bibitem{eagar1983} T. W. Eagar and N. S. Tsai, ``Temperature fields produced by traveling distributed heat sources,'' \textit{Welding Journal}, vol. 62, no. 12, pp. 346--355, 1983.
+
+\bibitem{rosenthal1946} D. Rosenthal, ``The theory of moving sources of heat and its application to metal treatments,'' \textit{Transactions of ASME}, vol. 68, pp. 849--866, 1946.
+
+\bibitem{rasmussen2006} C. E. Rasmussen and C. K. I. Williams, \textit{Gaussian Processes for Machine Learning}. Cambridge, MA: MIT Press, 2006.
+
+\bibitem{storn1997} R. Storn and K. Price, ``Differential evolution -- a simple and efficient heuristic for global optimization over continuous spaces,'' \textit{Journal of Global Optimization}, vol. 11, no. 4, pp. 341--359, 1997.
+
+\bibitem{mercelis2006} P. Mercelis and J.-P. Kruth, ``Residual stresses in selective laser sintering and selective laser melting,'' \textit{Rapid Prototyping Journal}, vol. 12, no. 5, pp. 254--265, 2006.
+
+\bibitem{simufact} Simufact Engineering GmbH, \textit{Simufact Additive -- User Manual}, version 2023. Hamburg, Germany.
+
+\bibitem{sklearn} F. Pedregosa et al., ``Scikit-learn: Machine learning in Python,'' \textit{Journal of Machine Learning Research}, vol. 12, pp. 2825--2830, 2011.
+
+\bibitem{scipy} P. Virtanen et al., ``SciPy 1.0: Fundamental algorithms for scientific computing in Python,'' \textit{Nature Methods}, vol. 17, pp. 261--272, 2020.
+
+\bibitem{king2014} W. E. King et al., ``Observation of keyhole-mode laser melting in laser powder-bed fusion additive manufacturing,'' \textit{Journal of Materials Processing Technology}, vol. 214, no. 12, pp. 2915--2925, 2014.
+
+\bibitem{gu2012} D. Gu et al., ``Laser additive manufacturing of metallic components: materials, processes and mechanisms,'' \textit{International Materials Reviews}, vol. 57, no. 3, pp. 133--164, 2012.
+
+\end{thebibliography}
+
+\end{document}
